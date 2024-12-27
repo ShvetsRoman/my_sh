@@ -29,38 +29,39 @@ QUIET=$4
 
 if ping -c 3 ${HOST} | grep -e "mdev" >/dev/null; then
     echo "[***] Резервне копіювання 00_setup..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/00_setup serv@192.168.88.7:/run/media/serv/media
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/00_setup serv@${HOST}:/run/media/serv/media
 
     echo "[***] Резервне копіювання 01_project..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/01_project serv@192.168.88.7:/run/media/serv/media
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/01_project serv@${HOST}:/run/media/serv/media
 
     echo "[***] Резервне копіювання 03_work..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/03_work serv@192.168.88.7:/run/media/serv/media
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/03_work serv@${HOST}:/run/media/serv/media
 
     echo "[***] Резервне копіювання Documents..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Documents serv@192.168.88.7:/run/media/serv/media
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Documents serv@${HOST}:/run/media/serv/media
 
     echo "[***] Резервне копіювання Music..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Music serv@192.168.88.7:/run/media/serv/media
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Music serv@${HOST}:/run/media/serv/media
 
     echo "[***] Резервне копіювання Pictures..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Pictures serv@192.168.88.7:/run/media/serv/media
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Pictures serv@${HOST}:/run/media/serv/media
 
     echo "[***] Резервне копіювання Videos..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Videos serv@192.168.88.7:/run/media/serv/media
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Videos serv@${HOST}:/run/media/serv/media
 else
-    echo "ERROR !!!!!"
+    echo "[***] ERROR ping server!!!!!"
+    exit 0
 fi
 
 # Basic argument checks:
 if [ -z "$COUNT" ] ; then
-  echo "COUNT не вказано."
+  echo "[***] COUNT не вказано."
 fi
 if [ ! -z "$5" ] ; then
-  echo "Надто багато варіантів."
+  echo "[***] Надто багато варіантів."
 fi
 if [ -n "$QUIET" ] && [ "x$QUIET" != "x-q"	] ; then
-  echo "Option 3 is either -q or empty. Given: \"$QUIET\""
+  echo "[***] Option 3 is either -q or empty. Given: \"$QUIET\""
 fi
 
 # $max_snap це найбільша кількість log файлів, які зберігатимуться $BACKUP
@@ -70,7 +71,7 @@ max_log=$COUNT
 for i in $(find "$TARGET" -maxdepth 1|sort |grep "${BACKUP}" |head -n -${max_log}); do
   cmd="rm -r $i"
   if [ -z "$QUIET" ]; then
-    echo "ВИДАЛЕННЯ ЛОГ ФАЙЛІВ !!!"
+    echo "[***] ВИДАЛЕННЯ ЛОГ ФАЙЛІВ!!!"
     echo "$cmd"
     $cmd
   else
@@ -114,5 +115,6 @@ anacron
 sudo systemctl start cronie.service
 sudo systemctl enable cronie.service
 
-colors yellow "######################################################################################"
-colors yellow "######################################################################################"
+colors yellow "############"
+colors green "[***] END..."
+colors yellow "############"

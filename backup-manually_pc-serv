@@ -1,0 +1,46 @@
+#!/bin/bash
+
+HOST=192.168.88.70
+
+colors() {
+  case "$1" in
+    red)
+      echo -e "\n\033[31m$2\033[0m"
+    ;;
+    yellow)
+      echo -e "\n\033[33m$2\033[0m"
+    ;;
+    green)
+      echo -e "\n\033[32m$2\033[0m"
+    ;;
+  esac
+}
+
+if ping -c 3 ${HOST} | grep -e "mdev" >/dev/null; then
+    colors green "[***] Резервне копіювання 00_setup..."
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/00_setup serv@${HOST}:/run/media/serv/media
+
+    colors green "[***] Резервне копіювання 01_project..."
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/01_project serv@${HOST}:/run/media/serv/media
+
+    colors green "[***] Резервне копіювання 03_work..."
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/03_work serv@${HOST}:/run/media/serv/media
+
+    colors green "[***] Резервне копіювання Documents..."
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Documents serv@${HOST}:/run/media/serv/media
+
+    colors green "[***] Резервне копіювання Music..."
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Music serv@${HOST}:/run/media/serv/media
+
+    colors green "[***] Резервне копіювання Pictures..."
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Pictures serv@${HOST}:/run/media/serv/media
+
+    colors green "[***] Резервне копіювання Videos..."
+    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Videos serv@${HOST}:/run/media/serv/media
+
+colors yellow "[***] END..."
+
+else
+    colors red "[***] ERROR ping server!!!!!"
+    exit 0
+fi
