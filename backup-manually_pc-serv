@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOST=192.168.88.70
+HOST=192.168.88.7
 
 colors() {
   case "$1" in
