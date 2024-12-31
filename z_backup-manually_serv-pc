@@ -18,28 +18,7 @@ colors() {
 
 if ping -c 3 ${HOST} | grep -e "mdev" >/dev/null; then
     colors green "[***] Резервне копіювання на ПК > HOME..."
-    rsync -a --delete --quiet -e "ssh -p 2241" serv@192.168.88.7:/run/media/serv/media/ ~/
-
-    # colors green "[***] Резервне копіювання 00_setup..."
-    # rsync -a --delete --quiet -e "ssh -p 2241" serv@192.168.88.7:/run/media/serv/media/00_setup ~/
-    #
-    # colors green "[***] Резервне копіювання 01_project..."
-    # rsync -a --delete --quiet -e "ssh -p 2241" serv@192.168.88.7:/run/media/serv/media/01_project ~/
-    #
-    # colors green "[***] Резервне копіювання 02_work..."
-    # rsync -a --delete --quiet -e "ssh -p 2241" serv@192.168.88.7:/run/media/serv/media/02_work ~/
-    #
-    # colors green "[***] Резервне копіювання Documents..."
-    # rsync -a --delete --quiet -e "ssh -p 2241" serv@192.168.88.7:/run/media/serv/media/Documents ~/
-    #
-    # colors green "[***] Резервне копіювання Music..."
-    # rsync -a --delete --quiet -e "ssh -p 2241" serv@192.168.88.7:/run/media/serv/media/Music ~/
-    #
-    # colors green "[***] Резервне копіювання Pictures..."
-    # rsync -a --delete --quiet -e "ssh -p 2241" serv@192.168.88.7:/run/media/serv/media/Pictures ~/
-    #
-    # colors green "[***] Резервне копіювання Videos..."
-    # rsync -a --delete --quiet -e "ssh -p 2241" serv@192.168.88.7:/run/media/serv/media/Videos ~/
+    rsync -a --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" serv@192.168.88.7:/run/media/serv/media/ ~/
     colors yellow "[***] END..."
 else
     colors red "[***] ERROR ping server!!!!!"
