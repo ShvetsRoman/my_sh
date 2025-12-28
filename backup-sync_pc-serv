@@ -17,6 +17,8 @@ colors() {
 }
 
 if ping -c 3 ${HOST} | grep -e "mdev" >/dev/null; then
+    colors green "[***] PING OK"
+
     colors green "[***] Резервне копіювання 00_setup..."
     rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/00_setup serv@${HOST}:/run/media/serv/media
 
