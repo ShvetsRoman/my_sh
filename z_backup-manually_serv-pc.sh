@@ -1,6 +1,7 @@
 #!/bin/bash
 
-HOST=192.168.88.7
+HOST_IP=192.168.88.7
+HOST=serv
 
 colors() {
 	case "$1" in
@@ -16,9 +17,9 @@ colors() {
 	esac
 }
 
-if ping -c 3 ${HOST} | grep -e "mdev" >/dev/null; then
+if ping -c 3 ${HOST_IP} | grep -e "mdev" >/dev/null; then
     colors green "[***] Резервне копіювання на ПК > HOME..."
-    rsync -a --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" serv@${HOST}:/run/media/serv/media/ ~/
+    rsync -avh --progress serv@${HOST}:/run/media/serv/media/ ~/
     colors yellow "[***] END..."
 else
     colors red "[***] ERROR ping server!!!!!"

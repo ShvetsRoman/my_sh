@@ -1,6 +1,7 @@
 #!/bin/bash
 
-HOST=192.168.88.7
+HOST_IP=192.168.88.7
+HOST=serv
 
 colors() {
   case "$1" in
@@ -16,29 +17,29 @@ colors() {
   esac
 }
 
-if ping -c 3 ${HOST} | grep -e "mdev" >/dev/null; then
+if ping -c 3 ${HOST_IP} | grep -e "mdev" >/dev/null; then
     colors green "[***] PING OK"
 
     colors green "[***] Резервне копіювання 00_setup..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/00_setup serv@${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete /home/roman/00_setup serv@${HOST}:/run/media/serv/media
 
     colors green "[***] Резервне копіювання 01_project..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/01_project serv@${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete /home/roman/01_project serv@${HOST}:/run/media/serv/media
 
     colors green "[***] Резервне копіювання 03_work..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/03_work serv@${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete /home/roman/03_work serv@${HOST}:/run/media/serv/media
 
     colors green "[***] Резервне копіювання Documents..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Documents serv@${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete /home/roman/Documents serv@${HOST}:/run/media/serv/media
 
     colors green "[***] Резервне копіювання Music..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Music serv@${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete /home/roman/Music serv@${HOST}:/run/media/serv/media
 
     colors green "[***] Резервне копіювання Pictures..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Pictures serv@${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete /home/roman/Pictures serv@${HOST}:/run/media/serv/media
 
     colors green "[***] Резервне копіювання Videos..."
-    rsync -a --delete --quiet -e "ssh -p 2241 -i /home/roman/.ssh/id_serv" /home/roman/Videos serv@${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete /home/roman/Videos serv@${HOST}:/run/media/serv/media
 
 colors yellow "[***] END..."
 
