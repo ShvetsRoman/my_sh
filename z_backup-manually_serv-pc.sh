@@ -19,7 +19,7 @@ colors() {
 
 if ping -c 3 ${HOST_IP} | grep -e "mdev" >/dev/null; then
     colors green "[***] Резервне копіювання на ПК > HOME..."
-    rsync -avh --progress serv@${HOST}:/run/media/serv/media/ ~/
+    rsync -avh --progress ${HOST}:/run/media/serv/media/ ~/
     colors yellow "[***] END..."
 else
     colors red "[***] ERROR ping server!!!!!"
