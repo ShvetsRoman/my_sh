@@ -16,6 +16,10 @@ CONFIG_ITEMS=(
   "$HOME/.config/krunnerrc"
   "$HOME/.config/dolphinrc"
   "$HOME/.config/konsole"
+  "$HOME/.config/kitty"
+  "$HOME/.config/nvim"
+  "$HOME/.config/starship"
+  "$HOME/.config/yazi"
 )
 
 LOCAL_SHARE_ITEMS=(
