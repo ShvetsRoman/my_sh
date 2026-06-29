@@ -36,12 +36,12 @@ sudo snapper -c root list || color green "Snapper not available"
 color green ""
 color green "[3.1] Cleaning old snapshots (keeping last $KEEP)..."
 
-IDS=$(sudo snapper list | awk 'NR>2 {print $1}' | grep -E '^[0-9]+$' | head -n -$KEEP || true)
+IDS=$(sudo snapper -c root list | awk 'NR>2 {print $1}' | grep -E '^[0-9]+$' | head -n -$KEEP || true)
 
 if [ -n "$IDS" ]; then
   for id in $IDS; do
     color red "Deleting snapshot: $id"
-    sudo snapper delete "$id" || true
+    sudo snapper -c root delete "$id" || true
   done
 else
   color red "Nothing to delete."
