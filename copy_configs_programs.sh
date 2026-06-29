@@ -1,38 +1,34 @@
 #!/usr/bin/env bash
 
 # === Основні шляхи ===
-BACKUP_DIR="$HOME/00_setup/sh/my_sh/kde_bak/"
+BACKUP_DIR="$HOME/00_setup/sh/my_sh/prog_bak/"
 TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
-BACKUP_NAME="kde_settings_$TIMESTAMP.tar.gz"
+BACKUP_NAME="prog_settings_$TIMESTAMP.tar.gz"
 BACKUP_PATH="$BACKUP_DIR/$BACKUP_NAME"
 
 # === Файли та папки, які перевіряємо ===
 CONFIG_ITEMS=(
-  "$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
-  "$HOME/.config/kdeglobals"
-  "$HOME/.config/kwinrc"
-  "$HOME/.config/kglobalshortcutsrc"
-  "$HOME/.config/kscreenlockerrc"
-  "$HOME/.config/krunnerrc"
-  "$HOME/.config/dolphinrc"
-  "$HOME/.config/konsole"
+  "$HOME/.config/kitty"
+  "$HOME/.config/nvim"
+  "$HOME/.config/starship"
+  "$HOME/.config/yazi"
 )
 
-LOCAL_SHARE_ITEMS=(
-  "$HOME/.local/share/plasma"
-  "$HOME/.local/share/kxmlgui5"
-  "$HOME/.local/share/konsole"
+ZSH_ITEMS=(
+  "$HOME/.zshrc"
+  "$HOME/.zsh_path"
+  "$HOME/.zsh_alias"
 )
 
 # === Резервне копіювання ===
-backup_kde_settings() {
-  echo "📦 Створюю резервну копію KDE..."
+backup_prog_settings() {
+  echo "📦 Створюю резервну копію config programs..."
 
   mkdir -p "$BACKUP_DIR"
 
   INCLUDE_ITEMS=()
 
-  for item in "${CONFIG_ITEMS[@]}" "${LOCAL_SHARE_ITEMS[@]}"; do
+  for item in "${CONFIG_ITEMS[@]}" "${ZSH_ITEMS[@]}"; do
     if [ -e "$item" ]; then
       REL_PATH="${item#$HOME/}"  # відносний шлях
       INCLUDE_ITEMS+=("--transform=s,^$HOME/,," -C "$HOME" "$REL_PATH")
@@ -53,7 +49,7 @@ backup_kde_settings() {
 }
 
 # === Відновлення ===
-restore_kde_settings() {
+restore_prog_settings() {
   read -e -p "📂 Вкажи шлях до архіву (.tar.gz): " ARCHIVE
 
   if [ ! -f "$ARCHIVE" ]; then
@@ -65,10 +61,7 @@ restore_kde_settings() {
   tar xzf "$ARCHIVE" -C "$HOME"
 
   echo "🔧 Встановлюю права..."
-  chown -R "$USER:$USER" "$HOME/.config" "$HOME/.local/share"
-
-  echo "🔄 Перезапускаю Plasma..."
-  kquitapp5 plasmashell && kstart5 plasmashell
+  chown -R "$USER:$USER" "$HOME/.config"
 
   echo "✅ Відновлення завершено."
 }
@@ -85,10 +78,10 @@ read -p "Вибери дію (1-3): " choice
 
 case "$choice" in
   1)
-    backup_kde_settings
+    backup_prog_settings
     ;;
   2)
-    restore_kde_settings
+    restore_prog_settings
     ;;
   3)
     echo "👋 Вихід."
