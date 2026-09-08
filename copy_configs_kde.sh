@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
+
+# Визначити абсолютний шлях до директорії, де лежить цей скрипт
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # === Основні шляхи ===
-BACKUP_DIR="$HOME/00_setup/sh/my_sh/kde_bak/"
+BACKUP_DIR="${SCRIPT_DIR}/back_kde"
 TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
 BACKUP_NAME="kde_settings_$TIMESTAMP.tar.gz"
 BACKUP_PATH="$BACKUP_DIR/$BACKUP_NAME"
