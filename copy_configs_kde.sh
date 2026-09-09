@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 # Визначити абсолютний шлях до директорії, де лежить цей скрипт
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
