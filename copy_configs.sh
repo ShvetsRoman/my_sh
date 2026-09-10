@@ -144,8 +144,10 @@ copy_file() {
 
 readonly COPY_DIRS=(
     "alacritty|Alacritty"
+    "eza|Eza"
     "kitty|Kitty"
     "Kvantum|Kvantum"
+    "mc|MC"
     "nvim|NeoVim"
     "starship|Starship"
     "television|Television"
