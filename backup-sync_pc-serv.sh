@@ -1,7 +1,12 @@
 #!/bin/bash
 
-HOST_IP=192.168.88.7
-HOST=serv
+SERVER="192.168.88.7"
+PORT="2241"
+HOST_SSH="serv"
+USER="serv"
+SSH_KEY="$HOME/.ssh/id_serv"
+
+# rsync -avh --info=progress2 --delete -e "ssh -p ${PORT} -i ${SSH_KEY}" $HOME/00_setup "${USER}@${SERVER}:/run/media/serv/media/"
 
 colors() {
   case "$1" in
@@ -17,29 +22,29 @@ colors() {
   esac
 }
 
-if ping -c 3 ${HOST_IP} | grep -e "mdev" >/dev/null; then
+if ping -c 3 ${SERVER} | grep -e "mdev" >/dev/null; then
     colors green "[***] PING OK"
 
     colors green "[***] Резервне копіювання 00_setup..."
-    rsync -avh --progress --delete /home/roman/00_setup ${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete ${HOME}/00_setup ${HOST_SSH}:/run/media/serv/media
 
     colors green "[***] Резервне копіювання 01_project..."
-    rsync -avh --progress --delete /home/roman/01_project ${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete ${HOME}/01_project ${HOST_SSH}:/run/media/serv/media
 
     colors green "[***] Резервне копіювання 03_work..."
-    rsync -avh --progress --delete /home/roman/03_work ${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete ${HOME}/03_work ${HOST_SSH}:/run/media/serv/media
 
     colors green "[***] Резервне копіювання Documents..."
-    rsync -avh --progress --delete /home/roman/Documents ${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete ${HOME}/Documents ${HOST_SSH}:/run/media/serv/media
 
     colors green "[***] Резервне копіювання Music..."
-    rsync -avh --progress --delete /home/roman/Music ${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete ${HOME}/Music ${HOST_SSH}:/run/media/serv/media
 
     colors green "[***] Резервне копіювання Pictures..."
-    rsync -avh --progress --delete /home/roman/Pictures ${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete ${HOME}/Pictures ${HOST_SSH}:/run/media/serv/media
 
     colors green "[***] Резервне копіювання Videos..."
-    rsync -avh --progress --delete /home/roman/Videos ${HOST}:/run/media/serv/media
+    rsync -avh --progress --delete ${HOME}/Videos ${HOST_SSH}:/run/media/serv/media
 
 colors yellow "[***] END..."
 
