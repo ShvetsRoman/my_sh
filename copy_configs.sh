@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# ============================================================
-# КОПІЮВАННЯ КОНФІГУРАЦІЇ КОРИСТУВАЧА
-# ============================================================
-
 set -Eeuo pipefail
 
 # ============================================================
@@ -12,6 +8,38 @@ set -Eeuo pipefail
 
 readonly DIR_HOME_CONF="${HOME}/.config"
 readonly DIR_COPY_CONF="${HOME}/00_setup/sh/inst/prog/conf"
+
+# ============================================================
+# СПИСОК КАТАЛОГІВ
+# Формат: "шлях|опис"
+# ============================================================
+
+readonly COPY_DIRS=(
+    "alacritty|Alacritty"
+    "eza|Eza"
+    "kitty|Kitty"
+    "Kvantum|Kvantum"
+    "mc|MC"
+    "nvim|NeoVim"
+    "starship|Starship"
+    "television|Television"
+    "wezterm|Wezterm"
+    "yazi|Yazi"
+)
+
+# ============================================================
+# СПИСОК ФАЙЛІВ
+# Формат: "джерело|призначення|опис"
+# ============================================================
+
+readonly COPY_FILES=(
+    "${DIR_HOME_CONF}/pikaur.conf|pikaur/pikaur.conf|Pikaur"
+    "/etc/environment|system/environment|System environment"
+
+    "${HOME}/.zshrc|zsh/.zshrc|ZSH .zshrc"
+    "${HOME}/.zsh_alias|zsh/.zsh_alias|ZSH aliases"
+    "${HOME}/.zsh_path|zsh/.zsh_path|ZSH paths"
+)
 
 # ============================================================
 # КОЛЬОРИ
@@ -24,13 +52,6 @@ readonly RED='\033[0;31m'
 readonly NC='\033[0m'
 
 # ============================================================
-# ЛІЧИЛЬНИКИ
-# ============================================================
-
-COPIED=0
-SKIPPED=0
-
-# ============================================================
 # LOGGING
 # ============================================================
 
@@ -38,6 +59,13 @@ log_info() { echo -e "${BLUE}[INFO]${NC} $1\n"; }
 log_success() { echo -e "${GREEN}[SUCCESS]${NC} $1\n"; }
 log_warning() { echo -e "${YELLOW}[WARNING]${NC} $1\n"; }
 log_error() { echo -e "${RED}[ERROR]${NC} $1\n"; exit 1; }
+
+# ============================================================
+# ЛІЧИЛЬНИКИ
+# ============================================================
+
+COPIED=0
+SKIPPED=0
 
 # ============================================================
 # ОБРОБКА ПОМИЛОК
@@ -134,42 +162,6 @@ copy_file() {
 
     COPIED=$((COPIED + 1))
 }
-
-# ============================================================
-# СПИСОК КАТАЛОГІВ
-#
-# Формат:
-# "шлях|опис"
-# ============================================================
-
-readonly COPY_DIRS=(
-    "alacritty|Alacritty"
-    "eza|Eza"
-    "kitty|Kitty"
-    "Kvantum|Kvantum"
-    "mc|MC"
-    "nvim|NeoVim"
-    "starship|Starship"
-    "television|Television"
-    "wezterm|Wezterm"
-    "yazi|Yazi"
-)
-
-# ============================================================
-# СПИСОК ФАЙЛІВ
-#
-# Формат:
-# "джерело|призначення|опис"
-# ============================================================
-
-readonly COPY_FILES=(
-    "${DIR_HOME_CONF}/pikaur.conf|pikaur/pikaur.conf|Pikaur"
-    "/etc/environment|system/environment|System environment"
-
-    "${HOME}/.zshrc|zsh/.zshrc|ZSH .zshrc"
-    "${HOME}/.zsh_alias|zsh/.zsh_alias|ZSH aliases"
-    "${HOME}/.zsh_path|zsh/.zsh_path|ZSH paths"
-)
 
 # ============================================================
 # ПОЧАТОК
