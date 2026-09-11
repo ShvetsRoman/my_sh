@@ -84,7 +84,6 @@ if [[ -n "$HOST_SSH" ]]; then
 
     SSH_CMD=(
         ssh
-        "$HOST_SSH"
     )
 
     RSYNC_SSH="ssh"
@@ -191,7 +190,6 @@ usage() {
 
   $0 dry-run-down
   $0 sync-down
-
 EOF
 }
 
