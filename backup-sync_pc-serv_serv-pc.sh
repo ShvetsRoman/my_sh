@@ -412,6 +412,32 @@ check_remote_directory() {
 }
 
 # ============================================================
+# CONFIRM DESTRUCTIVE SYNC
+# ============================================================
+
+confirm_destructive_sync() {
+    # Підтвердження потрібне лише для РЕАЛЬНОЇ синхронізації UP,
+    # бо тільки там є --delete.
+    if [[ "$DRY_RUN" == true || "$DIRECTION" != "up" ]]; then
+        return 0
+    fi
+
+    echo
+    log_title "ПІДТВЕРДЖЕННЯ"
+    log_warning "Буде виконано РЕАЛЬНУ синхронізацію:"
+    log_warning "  ${LOCAL_DIR}  →  ${SSH_DISPLAY}:${REMOTE_DIR}"
+    log_warning "З опцією --delete."
+    log_warning "Файли на сервері, яких немає локально, БУДУТЬ ВИДАЛЕНІ."
+    echo
+
+    read -rp "Продовжити? [y/N] " ans
+    if [[ "$ans" != "y" ]]; then
+        log_info "Скасовано користувачем."
+        exit 0
+    fi
+}
+
+# ============================================================
 # BUILD RSYNC OPTIONS
 # ============================================================
 # REFACTOR: викликається один раз у main(), а не в циклі.
@@ -682,6 +708,9 @@ main() {
 
     # REFACTOR: rsync options будуються один раз, а не в циклі
     build_rsync_options
+
+    # yes/no --delete
+    confirm_destructive_sync
 
     # Sync
     process_all_directories
