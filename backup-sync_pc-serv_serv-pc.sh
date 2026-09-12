@@ -99,6 +99,8 @@ SUCCESS=0
 FAILED=0
 FAILED_DIRS=()
 
+ASSUME_YES=false
+
 # ============================================================
 # LOGGING
 # ============================================================
@@ -194,6 +196,14 @@ EOF
 # ============================================================
 
 parse_mode() {
+
+    # обробка --yes перед MODE
+    if [[ "${1:-}" == "-y" || "${1:-}" == "--yes" ]]; then
+        ASSUME_YES=true
+        shift
+        MODE="${1:-}"
+    fi
+
     case "$MODE" in
         dry-run-up)
             DIRECTION="up"
@@ -416,6 +426,12 @@ check_remote_directory() {
 # ============================================================
 
 confirm_destructive_sync() {
+
+    if [[ "$ASSUME_YES" == true ]]; then
+        log_warning "Підтвердження пропущено (--yes)."
+        return 0
+    fi
+
     # Підтвердження потрібне лише для РЕАЛЬНОЇ синхронізації UP,
     # бо тільки там є --delete.
     if [[ "$DRY_RUN" == true || "$DIRECTION" != "up" ]]; then
