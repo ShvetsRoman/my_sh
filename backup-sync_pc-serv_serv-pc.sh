@@ -201,8 +201,9 @@ parse_mode() {
     if [[ "${1:-}" == "-y" || "${1:-}" == "--yes" ]]; then
         ASSUME_YES=true
         shift
-        MODE="${1:-}"
     fi
+
+    MODE="${1:-}"
 
     case "$MODE" in
         dry-run-up)
