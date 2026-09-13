@@ -1,16 +1,43 @@
 #!/usr/bin/env bash
 
+set -Eeuo pipefail
+
+# Кольори
+readonly RED='\033[31m'
+readonly GREEN='\033[32m'
+readonly YELLOW='\033[33m'
+readonly BLUE='\033[34m'
+readonly CYAN='\033[36m'
+readonly NC='\033[0m'
+
+# LOGGING
+log_info()    { echo -e "${BLUE}[INFO]${NC} $1"; }
+log_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
+log_warning() { echo -e "${YELLOW}[WARNING]${NC} $1" >&2; }   # FIX: warnings → stderr
+log_error()   { echo -e "${RED}[ERROR]${NC} $1" >&2; }        # FIX: errors → stderr
+
+log_title() {
+    echo
+    echo -e "${CYAN}============================================================${NC}"
+    echo -e "${CYAN}$1${NC}"
+    echo -e "${CYAN}============================================================${NC}"
+}
+
+log_title_2() {
+    echo -e "${CYAN}============================================================${NC}"
+}
+
 # Визначити абсолютний шлях до директорії, де лежить цей скрипт
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# === Основні шляхи ===
+# Основні шляхи
 BACKUP_DIR="${SCRIPT_DIR}/back_kde"
 TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
 BACKUP_NAME="kde_settings_$TIMESTAMP.tar.gz"
 BACKUP_PATH="$BACKUP_DIR/$BACKUP_NAME"
 
-# === Файли та папки, які перевіряємо ===
-CONFIG_ITEMS=(
+# Файли та папки, які копіюємо та перевіряємо
+readonly CONFIG_ITEMS=(
   "$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
   "$HOME/.config/kdeglobals"
   "$HOME/.config/kwinrc"
@@ -21,15 +48,15 @@ CONFIG_ITEMS=(
   "$HOME/.config/konsole"
 )
 
-LOCAL_SHARE_ITEMS=(
+readonly LOCAL_SHARE_ITEMS=(
   "$HOME/.local/share/plasma"
   "$HOME/.local/share/kxmlgui5"
   "$HOME/.local/share/konsole"
 )
 
-# === Резервне копіювання ===
+# Резервне копіювання
 backup_kde_settings() {
-  echo "📦 Створюю резервну копію KDE..."
+  log_title "📦 Створюю резервну копію KDE..."
 
   mkdir -p "$BACKUP_DIR"
 
@@ -43,47 +70,48 @@ backup_kde_settings() {
   done
 
   if [ ${#INCLUDE_ITEMS[@]} -eq 0 ]; then
-    echo "⚠️ Немає доступних файлів для резервного копіювання."
+    log_warning "⚠️ Немає доступних файлів для резервного копіювання."
     exit 1
   fi
 
   tar czf "$BACKUP_PATH" "${INCLUDE_ITEMS[@]}"
   if [ $? -eq 0 ]; then
-    echo "✅ Бекап успішно створено: $BACKUP_PATH"
+    echo
+    log_success "✅ Бекап успішно створено: $BACKUP_PATH"
   else
-    echo "❌ Помилка під час архівації."
+    echo
+    log_error "❌ Помилка під час архівації."
   fi
 }
 
-# === Відновлення ===
+# Відновлення
 restore_kde_settings() {
   read -e -p "📂 Вкажи шлях до архіву (.tar.gz): " ARCHIVE
 
   if [ ! -f "$ARCHIVE" ]; then
-    echo "❌ Архів не знайдено."
+    log_error "❌ Архів не знайдено."
     exit 1
   fi
 
-  echo "🔁 Розпаковую архів..."
+  log_info "🔁 Розпаковую архів..."
   tar xzf "$ARCHIVE" -C "$HOME"
 
-  echo "🔧 Встановлюю права..."
+  log_info "🔧 Встановлюю права..."
   chown -R "$USER:$USER" "$HOME/.config" "$HOME/.local/share"
 
-  echo "🔄 Перезапускаю Plasma..."
+  log_info "🔄 Перезапускаю Plasma..."
   kquitapp5 plasmashell && kstart5 plasmashell
 
-  echo "✅ Відновлення завершено."
+  log_success "✅ Відновлення завершено."
 }
 
-# === Меню ===
-echo "=============================="
-echo " KDE Settings Backup Tool"
-echo "=============================="
+# Меню
+log_title " KDE Settings Backup Tool"
 echo "1) 📥 Резервне копіювання"
 echo "2) 🔁 Відновлення"
 echo "3) ❌ Вихід"
-echo "=============================="
+log_title_2
+
 read -p "Вибери дію (1-3): " choice
 
 case "$choice" in
@@ -94,11 +122,12 @@ case "$choice" in
     restore_kde_settings
     ;;
   3)
-    echo "👋 Вихід."
+    log_success "👋 Вихід."
     exit 0
     ;;
   *)
-    echo "❌ Невірний вибір."
+    echo
+    log_error "❌ Невірний вибір."
     exit 1
     ;;
 esac

@@ -39,7 +39,7 @@ set -Eeuo pipefail
 #     IdentityFile ~/.ssh/id_serv
 # ------------------------------------------------------------
 
-readonly HOST_SSH="serv"
+readonly HOST_SSH="my-server"
 
 # ------------------------------------------------------------
 # Пряме SSH підключення (ігнорується, якщо HOST_SSH != "")
@@ -201,9 +201,9 @@ parse_mode() {
     if [[ "${1:-}" == "-y" || "${1:-}" == "--yes" ]]; then
         ASSUME_YES=true
         shift
+        MODE="${1:-}"
     fi
 
-    MODE="${1:-}"
 
     case "$MODE" in
         dry-run-up)
