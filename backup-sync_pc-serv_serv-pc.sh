@@ -23,7 +23,7 @@ set -Eeuo pipefail
 # readonly SSH_KEY="$HOME/.ssh/id_serv"
 # readonly REMOTE_DIR="/run/media/serv/media"
 
-SSH_HOST="tel"
+SSH_HOST=""
 readonly SSH_IP="10.113.240.145"
 readonly SSH_PORT="8022"
 readonly SSH_USER="tel"
