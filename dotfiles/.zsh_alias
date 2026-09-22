@@ -24,7 +24,7 @@ alias lg='lazygit'
 
 # LazyDocker
 alias ld='lazydocker'
-
+alias genpass='sh $HOME/00_setup/sh/my_sh/gen_pass.sh'
 # ZEDITOR
 alias zed='zeditor'
 

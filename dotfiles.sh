@@ -82,7 +82,7 @@ log_git() {
 log_title() {
     echo
     echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${CYAN}~/$item${NC}"
+    echo -e "${CYAN}$1${NC}"
     echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 }
 
@@ -183,7 +183,7 @@ backup_dirs() {
             continue
         fi
 
-        log_title
+        log_title "$item"
 
         mkdir -p "$(dirname "$destination")"
 
@@ -228,7 +228,7 @@ backup_files() {
             continue
         fi
 
-        log_title
+        log_title "$item"
 
         mkdir -p "$(dirname "$destination")"
 
@@ -363,7 +363,7 @@ restore_dirs() {
             continue
         fi
 
-        log_title
+        log_title "$item"
 
         mkdir -p "$destination"
 
@@ -406,7 +406,7 @@ restore_files() {
             continue
         fi
 
-        log_title
+        log_title "$item"
 
         if [[ "$DRY_RUN" == true ]]; then
 
@@ -489,7 +489,7 @@ diff_dirs() {
             continue
         fi
 
-        log_title
+        log_title "$item"
 
         diff \
             -ruN \
@@ -518,7 +518,7 @@ diff_files() {
             continue
         fi
 
-        log_title
+        log_title "$item"
 
         diff \
             -u \
