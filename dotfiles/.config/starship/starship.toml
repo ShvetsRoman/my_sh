@@ -150,9 +150,9 @@ style = "fg:nord7 bold"
 # truncation дозволяє не отримувати надто довгий prompt.
 
 [directory]
-truncation_length = 3
+truncation_length = 5
 truncate_to_repo = false
-home_symbol = " 󰋜 "
+home_symbol = "󰋜 "
 read_only = " 󰌾 "
 format = "[$path]($style)[$read_only]($read_only_style) "
 style = "fg:nord9 bold"
