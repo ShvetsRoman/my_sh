@@ -37,6 +37,7 @@ DRY_RUN=false
 # ============================================================
 
 readonly BACKUP_DIRS=(
+    ".config/helix"
     ".config/nvim"
     ".config/wezterm"
     ".config/kitty"
@@ -51,8 +52,8 @@ readonly BACKUP_DIRS=(
 
 readonly BACKUP_FILES=(
     ".zshrc"
-    ".zsh_alias"
-    ".zsh_path"
+    ".zsh_alias.zsh"
+    ".zsh_path.zsh"
 )
 
 # ============================================================

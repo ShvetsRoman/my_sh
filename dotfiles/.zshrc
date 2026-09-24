@@ -22,15 +22,15 @@ fi
 #-----------------------------
 # Alias
 #-----------------------------
-if [[ -f ${HOME}/.zsh_alias ]]; then
-   source ${HOME}/.zsh_alias
+if [[ -f ${HOME}/.zsh_alias.zsh ]]; then
+   source ${HOME}/.zsh_alias.zsh
 fi
  
 #-----------------------------
 # PATH
 #-----------------------------
-if [[ -f ${HOME}/.zsh_path ]]; then
-   source ${HOME}/.zsh_path
+if [[ -f ${HOME}/.zsh_path.zsh ]]; then
+   source ${HOME}/.zsh_path.zsh
 fi
 
 #------------------------------

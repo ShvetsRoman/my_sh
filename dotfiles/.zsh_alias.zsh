@@ -25,6 +25,10 @@ alias lg='lazygit'
 # LazyDocker
 alias ld='lazydocker'
 alias genpass='sh $HOME/00_setup/sh/my_sh/gen_pass.sh'
+
+# HELIX
+alias hx='helix'
+
 # ZEDITOR
 alias zed='zeditor'
 
@@ -54,7 +58,7 @@ alias nv='nvim'
 
 # config zsh
 alias nzc='nvim ~/.zshrc'
-alias nza='nvim ~/.zsh_alias'
+alias nza='nvim ~/.zsh_alias.zsh'
 #alias nzcc='nvim ~/.config/zsh/.zshrc'
 #alias nzca='nvim ~/.config/zsh/zsh_alias'
 #alias nzcz='nvim ~/.config/zsh/.zimrc'
