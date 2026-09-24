@@ -1,4 +1,7 @@
 # default apps
+# export EDITOR="helix"
+# export VISUAL="helix"
+# export SUDO_EDITOR="helix"
 export EDITOR="nvim"
 export VISUAL="nvim"
 export SUDO_EDITOR="nvim"
@@ -9,13 +12,15 @@ export TERMINAL="wezterm"
 export TERM="xterm-256color"
 export BROWSER="google-chrome-stable"
 export LC_ALL=uk_UA.UTF-8
-export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 
 # Bat themes
 export BAT_THEME="OneHalfDark"
 
 # eza
 export EZA_CONFIG_DIR="$HOME/.config/eza"
+
+# starship
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 
 # pip
 export PATH=$PATH:"$HOME/.local/bin"
