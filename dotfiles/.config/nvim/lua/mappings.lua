@@ -12,8 +12,12 @@ map("i", "jk", "<ESC>")
 map({ "n", "i", "v" }, "<C-s>", "<cmd> :w <CR>")
 
 -- Insert Line Below
---map("n","<C-CR>","O<ESC>",{ desc = "Insert Insert line below UP" })
+map("n","<C-CR>","O<ESC>",{ desc = "Insert Insert line below UP" })
 map("n", "<CR>", "o<ESC>", { desc = "Insert Insert line below" })
+
+-- -- < > text
+-- map("v", "<", "<gv", { desc = "Unindent and keep selection" })
+-- map("v", ">", ">gv", { desc = "Indent and keep selection" })
 
 -- Nvim-tree
 map("n", "<F1>", "<cmd> :NvimTreeToggle <CR>", { desc = "Nvim-tree" })
