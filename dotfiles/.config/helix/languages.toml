@@ -12,3 +12,8 @@ shellcheckExternalSources = false
 [[language]]
 name = "bash"
 language-servers = [ "bash-language-server" ]
+
+# Аналіз файлів TOML
+# [[language]]
+# name = "toml"
+# config = {}

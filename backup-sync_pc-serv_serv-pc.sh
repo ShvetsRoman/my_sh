@@ -15,7 +15,7 @@
 
 set -Eeuo pipefail
 
-# ---------- CONFIG ----------
+# CONFIG
 # Приклад прямого підключення:
 # readonly SSH_IP="192.168.88.7"
 # readonly SSH_PORT="2241"
@@ -46,28 +46,28 @@ readonly BACKUP_DIRS=(
     "Pictures"
 )
 
-# ---------- COLORS ----------
+# COLORS
 readonly R=$'\e[31m' G=$'\e[32m' Y=$'\e[33m' B=$'\e[34m' C=$'\e[36m' N=$'\e[0m'
 
-# ---------- LOG_DIR ----------
+# LOG_DIR
 if [[ ! -d "$LOG_DIR" ]]; then
     mkdir -p "$LOG_DIR" || { echo "Не вдалося створити $LOG_DIR" >&2; exit 1; }
 fi
 
-# ---------- LOGGING ----------
+# LOGGING
 # Зберігаємо оригінальні stdout/stderr на fd 3 і 4.
 # Перенаправляємо вивід у tee; на EXIT відновлюємо дескриптори й чекаємо tee.
 exec 3>&1 4>&2
 exec > >(tee "$LOG_DIR/$LOG_NAME") 2>&1
 
-# ---------- LOG HELPERS ----------
+# LOG HELPERS
 log_info()  { echo -e "${B}[INFO]${N} $*"; }
 log_ok()    { echo -e "${G}[ OK ]${N} $*"; }
 log_warn()  { echo -e "${Y}[WARN]${N} $*" >&2; }
 log_error() { echo -e "${R}[ERROR]${N} $*" >&2; exit 1; }
 log_title() { echo -e "\n${C}── $* ──${N}"; }
 
-# ---------- CLEANUP + EXIT TRAP ----------
+# CLEANUP + EXIT TRAP
 # cleanup: видаляє файли старші за N днів із заданим патерном.
 cleanup() {
     local dir="$1" name="$2" days="$3"
@@ -114,7 +114,7 @@ on_exit() {
 }
 trap on_exit EXIT
 
-# ---------- ARGS ----------
+# ARGS
 # Синтаксис: [SSH_HOST] MODE [-y]
 #   MODE (обов'язковий) : test-up | sync-up | test-down | sync-down
 #   -y|--yes (опційно)  : не питати confirm
@@ -169,7 +169,7 @@ case "$MODE" in
     sync-down)    DIR=down; DRY=false ;;
 esac
 
-# ---------- SSH ----------
+# SSH
 # Масиви: SSH_CMD — для прямих ssh-викликів,
 #         RSYNC_RSH_CMD — для --rsh у rsync (як окремі аргументи через масив).
 if [[ -n "$SSH_HOST" ]]; then
@@ -185,7 +185,7 @@ else
     SSH_MODE_DESC="пряме ${SSH_USER}@${SSH_IP}:${SSH_PORT}"
 fi
 
-# ---------- RSYNC OPTIONS ----------
+# RSYNC OPTIONS
 # --rsh приймає один рядок; збираємо його БЕЗ %q (щоб не залежати від bash),
 # а через простий join із лапкуванням лише за потреби.
 rsh_string=""
@@ -202,7 +202,7 @@ RSYNC_OPTS=(--archive --verbose --stats --human-readable --rsh="$rsh_string")
 [[ "$DIR" == up   ]] && RSYNC_OPTS+=(--delete)
 [[ "$DRY" == true ]] && RSYNC_OPTS+=(--dry-run)
 
-# ---------- PRE-FLIGHT ----------
+# PRE-FLIGHT
 for t in rsync ssh mkdir stat find; do
     command -v "$t" >/dev/null || log_error "Не знайдено: $t"
 done
@@ -228,7 +228,7 @@ if [[ "$DRY" == false ]]; then
         || log_error "Не вдалося створити $REMOTE_DIR"
 fi
 
-# ---------- CONFIRM ----------
+# CONFIRM
 if [[ "$DRY" == false && "$ASSUME_YES" == false ]]; then
     if [[ "$DIR" == up ]]; then
         log_warn "PC → SERVER з --delete. Файли на сервері будуть видалені!"
@@ -244,7 +244,7 @@ if [[ "$DRY" == false && "$ASSUME_YES" == false ]]; then
     esac
 fi
 
-# ---------- SYNC ----------
+# SYNC
 TOTAL=0; SUCCESS=0; FAILED=0
 FAILED_DIRS=()
 
@@ -296,7 +296,7 @@ for d in "${BACKUP_DIRS[@]}"; do
     fi
 done
 
-# ---------- SUMMARY ----------
+# SUMMARY
 log_title "ПІДСУМОК"
 log_info "Усього: $TOTAL | OK: $SUCCESS | FAIL: $FAILED"
 if (( ${#FAILED_DIRS[@]} > 0 )); then

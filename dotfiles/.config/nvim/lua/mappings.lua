@@ -26,6 +26,8 @@ map("n", "<F1>", "<cmd> :NvimTreeToggle <CR>", { desc = "Nvim-tree" })
 map("n", "<F4>", ":%s///gc<LEFT><LEFT><LEFT><LEFT>", { desc = "Search Пошук та заміна" })
 map("i", "<F4>", "<ESC>:%s///gc<LEFT><LEFT><LEFT><LEFT>", { desc = "Search Пошук та заміна" })
 
+map("n", "<F5>", ":g/^$/d", { desc = "Видалення абсолютно всіх порожніх рядків" })
+
 map("n", "<F8>", "<cmd> :NvCheatsheet <CR>", { desc = "Mappings" })
 map("n", "<laeder> + <F8>", "<cmd> :Telescope keymaps <CR>", { desc = "Mappings" })
 
