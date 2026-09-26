@@ -26,6 +26,7 @@ log_title() {
 readonly LOCAL_DIR_1="$HOME/test_1"
 readonly LOCAL_DIR_2="$HOME/test_2"
 
+
 readonly BACKUP_DIRS=(
     "00_setup"
     "01_project"
@@ -38,8 +39,6 @@ readonly BACKUP_DIRS=(
 
 # Тоді виклик:
 # mk_dirs "$LOCAL_DIR" BACKUP_DIRS
-# або:
-# mk_dirs "$HOME" CONFIG_DIRS
 mk_dirs() {
     # $1 — базовий каталог
     # $2 — ім'я масиву
